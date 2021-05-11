@@ -32,11 +32,11 @@ pub const AndroidApp = struct {
     thread: ?*std.Thread = null,
     running: bool = true,
 
-    egl_lock: std.Mutex = std.Mutex{},
+    egl_lock: std.Thread.Mutex = std.Thread.Mutex{},
     egl: ?EGLContext = null,
     egl_init: bool = true,
 
-    input_lock: std.Mutex = std.Mutex{},
+    input_lock: std.Thread.Mutex = std.Thread.Mutex{},
     input: ?*android.AInputQueue = null,
 
     config: ?*android.AConfiguration = null,
@@ -76,7 +76,7 @@ pub const AndroidApp = struct {
         //     // Must be called from main thread…
         //     _ = jni.AndroidMakeFullscreen();
         // }
-        self.thread = try std.Thread.spawn(self, mainLoop);
+        self.thread = try std.Thread.spawn(mainLoop, self);
     }
 
     /// Uninitialize the application.
@@ -145,8 +145,8 @@ pub const AndroidApp = struct {
         app_log.debug(
             \\MCC:         {}
             \\MNC:         {}
-            \\Language:    {}
-            \\Country:     {}
+            \\Language:    {s}
+            \\Country:     {s}
             \\Orientation: {}
             \\Touchscreen: {}
             \\Density:     {}
@@ -216,7 +216,7 @@ pub const AndroidApp = struct {
             var len = std.unicode.utf8Encode(codepoint, &buf) catch 0;
             var key_text = buf[0..len];
 
-            std.log.scoped(.input).info("Pressed key: '{}' U+{X}", .{ key_text, codepoint });
+            std.log.scoped(.input).info("Pressed key: '{s}' U+{X}", .{ key_text, codepoint });
         }
 
         return false;

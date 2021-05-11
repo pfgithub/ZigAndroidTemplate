@@ -1,3 +1,27 @@
+things
+
+```
+sdkmanager --install "ndk;21.1.6352462"
+sdkmanager --install "build-tools;28.0.3"
+sdkmanager --install "platforms;android-28"
+sdkmanager --install "platforms;android-29"
+
+sdkmanager "system-images;android-29;google_apis;x86_64"
+
+avdmanager create avd -n pixel -k "system-images;android-29;google_apis;x86_64" -d "17"
+
+mkdir «android sdk path»/platform-tools
+
+«sdk»/emulator/emulator -avd pixel
+
+zig build keystore
+zig build run -Dsdk-root=/path/to/sdk/root # TODO; make this configurable
+```
+
+the password for running is "passwd456" (defined in build.zig)
+
+if the emulator sigsev's, edit `~/.android/avd/pixel.avd/config.ini` and add `hw.gpu.mode = swiftshader_indirect`
+
 # Android Apps in Zig
 
 This repository contains a example on how to create a minimal Android app in Zig.

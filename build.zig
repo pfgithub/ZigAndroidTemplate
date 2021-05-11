@@ -13,13 +13,13 @@ const permissions = [_][]const u8{
 };
 
 // Adjust these to your system:
-const android_sdk_root = "/home/felix/projects/android-hass/android-sdk";
+const android_sdk_root = "/opt/android-sdk";
 const android_ndk_root = android_sdk_root ++ "/ndk/21.1.6352462";
 const android_build_tools = android_sdk_root ++ "/build-tools/28.0.3";
 
 const keytool = "keytool";
 const adb = "adb";
-const jarsigner = "/usr/lib/jvm/java-11-openjdk/bin/jarsigner";
+const jarsigner = "jarsigner";
 
 // These are tweakable, but are not required to be touched
 
